@@ -85,7 +85,7 @@ spec:
                 // TODO: But you can use any other solution (Kustomize, etc.)
                 // TODO: Second - use kubectl apply from kubectl container
                 container('kubectl') {
-                    sh "sed \"s+${params.IMAGE_NAME}+${params.IMAGE_NAME}:${BUILD_NUMBER}+\" ./k8s/frontend-deployment.yaml"
+                    sh "sed -i \"s+${params.IMAGE_NAME}+${params.IMAGE_NAME}:${BUILD_NUMBER}+\" ./k8s/frontend-deployment.yaml"
                     sh 'kubectl apply -f ./k8s'
                 }
             }
@@ -117,6 +117,7 @@ spec:
                 // TODO: Use curl to make a request to curl http://frontend:80/books
                 // TODO: You probably have to wait for like 60-120 second till everything is deployed for the first time
                 container('ubuntu') {
+                    sh 'apt update && apt upgrade'
                     sh 'apt install curl'
                     sh 'curl http://frontend:80/books'
                 }
