@@ -118,7 +118,7 @@ spec:
                 // TODO: You probably have to wait for like 60-120 second till everything is deployed for the first time
                 container('ubuntu') {
                     sh 'apt update && apt upgrade'
-                    sh 'apt install curl'
+                    sh 'apt-get -y install curl'
                     sh 'curl http://frontend:80/books'
                 }
             }
