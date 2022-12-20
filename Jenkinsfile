@@ -85,7 +85,7 @@ spec:
                 // TODO: But you can use any other solution (Kustomize, etc.)
                 // TODO: Second - use kubectl apply from kubectl container
                 container('kubectl') {
-                    sh 'sed "s+${params.IMAGE_NAME}+{params.IMAGE_NAME}:${BUILD_NUMBER}+" ./k8s/frontend-deployment.yaml'
+                    sh "sed \"s+${params.IMAGE_NAME}+${params.IMAGE_NAME}:${BUILD_NUMBER}+\" ./k8s/frontend-deployment.yaml"
                     sh 'kubectl apply -f ./k8s'
                 }
             }
