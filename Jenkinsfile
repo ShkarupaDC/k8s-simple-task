@@ -90,7 +90,7 @@ spec:
                     // OR
                     sh 'curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash -s -- /usr/local/bin'
                     dir('k8s') {
-                        sh 'kustomize edit set image ${params.IMAGE_NAME}=${params.IMAGE_NAME}:${BUILD_NUMBER}'
+                        sh "kustomize edit set image ${params.IMAGE_NAME}=${params.IMAGE_NAME}:${BUILD_NUMBER}"
                     }
                     sh 'kubectl apply -k ./k8s'
                 }
