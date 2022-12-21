@@ -88,10 +88,14 @@ spec:
                     // sh "sed -i \"s+${params.IMAGE_NAME}+${params.IMAGE_NAME}:${BUILD_NUMBER}+\" ./k8s/frontend-deployment.yaml"
                     // sh 'kubectl apply -f ./k8s'
                     // OR
-                    sh 'curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash -s -- /usr/local/bin'
-                    dir('k8s') {
-                        sh "kustomize edit set image ${params.IMAGE_NAME}=${params.IMAGE_NAME}:${BUILD_NUMBER}"
-                    }
+                    sh '''
+                    cat >> ./k8s/kustomization.yaml << EOL
+                    images:
+                      - name: ${params.IMAGE_NAME}
+                        newName: ${params.IMAGE_NAME}
+                        newTag: "${BUILD_NUMBER}"
+                    EOL
+                    '''
                     sh 'kubectl apply -k ./k8s'
                 }
             }
