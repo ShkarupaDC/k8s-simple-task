@@ -85,8 +85,14 @@ spec:
                 // TODO: But you can use any other solution (Kustomize, etc.)
                 // TODO: Second - use kubectl apply from kubectl container
                 container('kubectl') {
-                    sh "sed -i \"s+${params.IMAGE_NAME}+${params.IMAGE_NAME}:${BUILD_NUMBER}+\" ./k8s/frontend-deployment.yaml"
-                    sh 'kubectl apply -f ./k8s'
+                    // sh "sed -i \"s+${params.IMAGE_NAME}+${params.IMAGE_NAME}:${BUILD_NUMBER}+\" ./k8s/frontend-deployment.yaml"
+                    // sh 'kubectl apply -f ./k8s'
+                    // OR
+                    sh 'curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash -s -- /usr/local/bin'
+                    dir('k8s') {
+                        sh 'kustomize edit set image ${params.IMAGE_NAME}=${params.IMAGE_NAME}:${BUILD_NUMBER}'
+                    }
+                    sh 'kubectl apply -k ./k8s'
                 }
             }
         }
