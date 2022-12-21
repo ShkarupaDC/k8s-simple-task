@@ -88,14 +88,12 @@ spec:
                     // sh "sed -i \"s+${params.IMAGE_NAME}+${params.IMAGE_NAME}:${BUILD_NUMBER}+\" ./k8s/frontend-deployment.yaml"
                     // sh 'kubectl apply -f ./k8s'
                     // OR
-                    sh '''
-                    cat >> ./k8s/kustomization.yaml << EOL
+                    sh """cat <<-EOF >> ./k8s/kustomization.yaml
                     images:
-                      - name: ${params.IMAGE_NAME}
-                        newName: ${params.IMAGE_NAME}
+					  - name: ${params.IMAGE_NAME}
+						newName: ${params.IMAGE_NAME}
                         newTag: "${BUILD_NUMBER}"
-                    EOL
-                    '''
+                    EOF"""
                     sh 'kubectl apply -k ./k8s'
                 }
             }
