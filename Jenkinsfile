@@ -89,11 +89,11 @@ spec:
                     // sh 'kubectl apply -f ./k8s'
                     // OR
                     sh """cat <<-EOF >> ./k8s/kustomization.yaml
-                    images:
+					images:
 					  - name: ${params.IMAGE_NAME}
-						newName: ${params.IMAGE_NAME}
-                        newTag: "${BUILD_NUMBER}"
-                    EOF"""
+					    newName: ${params.IMAGE_NAME}
+					    newTag: "${BUILD_NUMBER}"
+					EOF"""
                     sh 'kubectl apply -k ./k8s'
                 }
             }
